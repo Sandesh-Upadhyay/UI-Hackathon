@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { useTaskContext } from '@/context/TaskContext';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogClose } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogClose, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -43,6 +43,7 @@ const AddCategoryDialog: React.FC = () => {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Add New Category</DialogTitle>
+          <DialogDescription>Create a new category to organize your tasks</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
@@ -61,24 +62,26 @@ const AddCategoryDialog: React.FC = () => {
             <Label className="text-right pt-2">
               Color
             </Label>
-            <RadioGroup 
-              value={color} 
-              onValueChange={(value) => setColor(value as any)} 
-              className="col-span-3 flex flex-wrap gap-2"
-            >
-              {colorOptions.map((option) => (
-                <div key={option.value} className="flex items-center space-x-2">
-                  <RadioGroupItem 
-                    value={option.value} 
-                    id={option.value} 
-                    className={`bg-taskflow-${option.value}/20`}
-                  />
-                  <Label htmlFor={option.value} className={`text-taskflow-${option.value}`}>
-                    {option.label}
-                  </Label>
-                </div>
-              ))}
-            </RadioGroup>
+            <div className="col-span-3">
+              <RadioGroup 
+                value={color} 
+                onValueChange={(value) => setColor(value as any)} 
+                className="flex flex-wrap gap-3"
+              >
+                {colorOptions.map((option) => (
+                  <div key={option.value} className="flex flex-col items-center space-y-1">
+                    <RadioGroupItem 
+                      value={option.value} 
+                      id={option.value} 
+                      className={`h-6 w-6 bg-taskflow-${option.value} border-taskflow-${option.value} text-white`}
+                    />
+                    <Label htmlFor={option.value} className={`text-xs text-taskflow-${option.value}`}>
+                      {option.label}
+                    </Label>
+                  </div>
+                ))}
+              </RadioGroup>
+            </div>
           </div>
         </div>
         <DialogFooter>
