@@ -35,31 +35,35 @@ const AddCategoryDialog: React.FC = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="gap-2">
-          <PlusCircle size={16} />
-          New Category
+        <Button variant="outline" className="gap-2 backdrop-blur-sm bg-white/10 border border-white/20 hover:bg-white/20 transition-all duration-300">
+          <PlusCircle size={16} className="text-taskflow-purple" />
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-taskflow-purple to-taskflow-blue">New Category</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] backdrop-blur-lg bg-white/70 border border-white/30 shadow-xl rounded-2xl">
         <DialogHeader>
-          <DialogTitle>Add New Category</DialogTitle>
-          <DialogDescription>Create a new category to organize your tasks</DialogDescription>
+          <DialogTitle className="text-2xl font-light bg-clip-text text-transparent bg-gradient-to-r from-taskflow-purple to-taskflow-blue">
+            Add New Category
+          </DialogTitle>
+          <DialogDescription className="text-muted-foreground/80">
+            Create a new category to organize your tasks
+          </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
+        <div className="grid gap-6 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
+            <Label htmlFor="name" className="text-right text-muted-foreground/90">
               Name
             </Label>
             <Input
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="col-span-3"
+              className="col-span-3 backdrop-blur-sm bg-white/40 border border-white/30 focus-visible:ring-taskflow-purple/50"
               placeholder="Category name"
             />
           </div>
           <div className="grid grid-cols-4 items-start gap-4">
-            <Label className="text-right pt-2">
+            <Label className="text-right pt-2 text-muted-foreground/90">
               Color
             </Label>
             <div className="col-span-3">
@@ -69,13 +73,13 @@ const AddCategoryDialog: React.FC = () => {
                 className="flex flex-wrap gap-3"
               >
                 {colorOptions.map((option) => (
-                  <div key={option.value} className="flex flex-col items-center space-y-1">
+                  <div key={option.value} className="flex flex-col items-center space-y-1 hover:scale-110 transition-transform duration-200">
                     <RadioGroupItem 
                       value={option.value} 
                       id={option.value} 
-                      className={`h-6 w-6 bg-taskflow-${option.value} border-taskflow-${option.value} text-white`}
+                      className={`h-8 w-8 bg-taskflow-${option.value} border-taskflow-${option.value} text-white ring-offset-2 ring-offset-background/50 shadow-lg shadow-taskflow-${option.value}/20`}
                     />
-                    <Label htmlFor={option.value} className={`text-xs text-taskflow-${option.value}`}>
+                    <Label htmlFor={option.value} className={`text-xs text-taskflow-${option.value} font-medium`}>
                       {option.label}
                     </Label>
                   </div>
@@ -86,9 +90,16 @@ const AddCategoryDialog: React.FC = () => {
         </div>
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant="outline">Cancel</Button>
+            <Button variant="outline" className="backdrop-blur-sm bg-white/10 border border-white/20 hover:bg-white/20">
+              Cancel
+            </Button>
           </DialogClose>
-          <Button onClick={handleAddCategory}>Add Category</Button>
+          <Button 
+            onClick={handleAddCategory}
+            className="bg-gradient-to-r from-taskflow-purple to-taskflow-blue hover:opacity-90 transition-opacity"
+          >
+            Add Category
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
