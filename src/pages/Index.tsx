@@ -16,7 +16,7 @@ const Index: React.FC = () => {
         
         <footer className="mt-8 text-center text-sm text-muted-foreground backdrop-blur-sm p-3 rounded-xl mx-auto max-w-md bg-white/10 border border-white/20">
           <p className="bg-clip-text text-transparent bg-gradient-to-r from-taskflow-purple to-taskflow-blue">
-            TaskFlow • Quantum Task Management • 2065
+            TaskFlow • Quantum Task Management • 2025
           </p>
         </footer>
       </div>

@@ -1,5 +1,5 @@
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback, memo } from 'react';
 import { Category } from '@/types/task';
 import { useTaskContext } from '@/context/TaskContext';
 import TaskCard from './TaskCard';
@@ -27,7 +27,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({ category }) => {
     };
   }, [tasks]);
 
-  const handleAddTask = () => {
+  const handleAddTask = useCallback(() => {
     if (newTaskTitle.trim()) {
       addTask({
         title: newTaskTitle.trim(),
@@ -37,21 +37,21 @@ const CategorySection: React.FC<CategorySectionProps> = ({ category }) => {
       setNewTaskTitle('');
       setIsAddingTask(false);
     }
-  };
+  }, [newTaskTitle, category.id, addTask]);
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       handleAddTask();
     }
-  };
+  }, [handleAddTask]);
 
   // Mock drag and drop for now (would implement real drag/drop in a full version)
-  const dragHandleProps = {
+  const dragHandleProps = useMemo(() => ({
     onMouseDown: (e: React.MouseEvent) => {
       e.preventDefault();
       // This would trigger real drag and drop in a full implementation
     }
-  };
+  }), []);
 
   return (
     <Card className="mb-6 animate-fade-in neo-glass hover:shadow-xl transition-all duration-300 border border-white/30">
@@ -131,4 +131,4 @@ const CategorySection: React.FC<CategorySectionProps> = ({ category }) => {
   );
 };
 
-export default React.memo(CategorySection);
+export default memo(CategorySection);

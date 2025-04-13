@@ -15,4 +15,7 @@ const TaskBoard: React.FC = () => {
   );
 };
 
-export default memo(TaskBoard);
+// Using React.memo with explicit equality check to prevent unnecessary re-renders
+export default memo(TaskBoard, (prevProps, nextProps) => {
+  return true; // Custom comparison always returns true since this component has no props
+});

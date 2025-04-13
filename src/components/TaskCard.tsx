@@ -1,5 +1,5 @@
 
-import React, { useState, memo } from 'react';
+import React, { useState, memo, useCallback } from 'react';
 import { Task, Category } from '@/types/task';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
@@ -23,7 +23,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
   const { toggleTaskCompletion, deleteTask } = useTaskContext();
   const [isAnimating, setIsAnimating] = useState(false);
 
-  const handleToggleComplete = () => {
+  const handleToggleComplete = useCallback(() => {
     if (!task.completed) {
       setIsAnimating(true);
       setTimeout(() => {
@@ -33,7 +33,11 @@ const TaskCard: React.FC<TaskCardProps> = ({
     } else {
       toggleTaskCompletion(task.id);
     }
-  };
+  }, [task.completed, task.id, toggleTaskCompletion]);
+
+  const handleDelete = useCallback(() => {
+    deleteTask(task.id);
+  }, [task.id, deleteTask]);
 
   return (
     <div 
@@ -71,7 +75,7 @@ const TaskCard: React.FC<TaskCardProps> = ({
         variant="ghost" 
         size="icon" 
         className="h-8 w-8 opacity-0 group-hover:opacity-100 hover:opacity-100 focus:opacity-100"
-        onClick={() => deleteTask(task.id)}
+        onClick={handleDelete}
       >
         <Trash2 size={16} className="text-muted-foreground" />
       </Button>
@@ -79,4 +83,13 @@ const TaskCard: React.FC<TaskCardProps> = ({
   );
 };
 
-export default memo(TaskCard);
+export default memo(TaskCard, (prevProps, nextProps) => {
+  // Custom comparison to prevent unnecessary re-renders
+  return (
+    prevProps.task.id === nextProps.task.id &&
+    prevProps.task.completed === nextProps.task.completed &&
+    prevProps.task.title === nextProps.task.title &&
+    prevProps.category.id === nextProps.category.id &&
+    prevProps.isDragging === nextProps.isDragging
+  );
+});
