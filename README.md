@@ -5,16 +5,6 @@
 **Live URL**: [https://ui-hackathon-project.netlify.app/](https://ui-hackathon-project.netlify.app/)
 
 ---
-
-## ✏️ How Can I Edit This Code?
-
-You have several ways to edit and work on this project:
-
-### 1. **Use Lovable (No-Code Editor)**
-
-- Visit the [project link](https://ui-hackathon-project.netlify.app/) and start prompting.
-- Any changes made via Lovable are automatically committed to the repository.
-
 ### 2. **Use Your Preferred IDE (Locally)**
 
 To work locally, follow these steps:
