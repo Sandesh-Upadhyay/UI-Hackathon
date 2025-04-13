@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Category } from '@/types/task';
 import { useTaskContext } from '@/context/TaskContext';
 import TaskCard from './TaskCard';
@@ -18,8 +18,14 @@ const CategorySection: React.FC<CategorySectionProps> = ({ category }) => {
   const [isAddingTask, setIsAddingTask] = useState(false);
   
   const tasks = getTasksByCategory(category.id);
-  const completedTasks = tasks.filter(task => task.completed);
-  const pendingTasks = tasks.filter(task => !task.completed);
+  
+  // Memoize the filtered tasks to avoid recalculation on every render
+  const { completedTasks, pendingTasks } = useMemo(() => {
+    return {
+      completedTasks: tasks.filter(task => task.completed),
+      pendingTasks: tasks.filter(task => !task.completed)
+    };
+  }, [tasks]);
 
   const handleAddTask = () => {
     if (newTaskTitle.trim()) {
@@ -125,4 +131,4 @@ const CategorySection: React.FC<CategorySectionProps> = ({ category }) => {
   );
 };
 
-export default CategorySection;
+export default React.memo(CategorySection);

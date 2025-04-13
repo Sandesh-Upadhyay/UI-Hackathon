@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { memo } from 'react';
 import { useTaskContext } from '@/context/TaskContext';
 import CategorySection from './CategorySection';
 
@@ -15,4 +15,4 @@ const TaskBoard: React.FC = () => {
   );
 };
 
-export default TaskBoard;
+export default memo(TaskBoard);

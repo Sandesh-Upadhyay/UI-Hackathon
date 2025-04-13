@@ -1,5 +1,5 @@
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { Task, Category } from '@/types/task';
 import { useToast } from '@/components/ui/use-toast';
 
@@ -83,60 +83,75 @@ export const TaskContext = createContext<TaskContextType | undefined>(undefined)
 export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [tasks, setTasks] = useState<Task[]>(defaultTasks);
   const [categories, setCategories] = useState<Category[]>(defaultCategories);
+  const [tasksByCategoryCache, setTasksByCategoryCache] = useState<Record<string, Task[]>>({});
   const { toast } = useToast();
 
-  const addTask = (task: Omit<Task, 'id' | 'createdAt'>) => {
+  // Create a memoized version of getTasksByCategory
+  const getTasksByCategory = useCallback((categoryId: string) => {
+    return tasks.filter(task => task.categoryId === categoryId);
+  }, [tasks]);
+
+  // Update the cache whenever tasks change
+  useEffect(() => {
+    const newCache: Record<string, Task[]> = {};
+    categories.forEach(category => {
+      newCache[category.id] = tasks.filter(task => task.categoryId === category.id);
+    });
+    setTasksByCategoryCache(newCache);
+  }, [tasks, categories]);
+
+  const addTask = useCallback((task: Omit<Task, 'id' | 'createdAt'>) => {
     const newTask: Task = {
       ...task,
       id: Date.now().toString(),
       createdAt: new Date(),
     };
-    setTasks([...tasks, newTask]);
+    setTasks(prevTasks => [...prevTasks, newTask]);
     toast({
       description: "Task added successfully",
     });
-  };
+  }, [toast]);
 
-  const updateTask = (id: string, updates: Partial<Task>) => {
-    setTasks(tasks.map(task => (task.id === id ? { ...task, ...updates } : task)));
-  };
+  const updateTask = useCallback((id: string, updates: Partial<Task>) => {
+    setTasks(prevTasks => prevTasks.map(task => (task.id === id ? { ...task, ...updates } : task)));
+  }, []);
 
-  const deleteTask = (id: string) => {
-    setTasks(tasks.filter(task => task.id !== id));
+  const deleteTask = useCallback((id: string) => {
+    setTasks(prevTasks => prevTasks.filter(task => task.id !== id));
     toast({
       variant: "destructive",
       description: "Task deleted",
     });
-  };
+  }, [toast]);
 
-  const toggleTaskCompletion = (id: string) => {
+  const toggleTaskCompletion = useCallback((id: string) => {
     setTasks(
-      tasks.map(task => 
+      prevTasks => prevTasks.map(task => 
         task.id === id ? { ...task, completed: !task.completed } : task
       )
     );
-  };
+  }, []);
 
-  const addCategory = (category: Omit<Category, 'id'>) => {
+  const addCategory = useCallback((category: Omit<Category, 'id'>) => {
     const newCategory: Category = {
       ...category,
       id: Date.now().toString(),
     };
-    setCategories([...categories, newCategory]);
+    setCategories(prevCategories => [...prevCategories, newCategory]);
     toast({
       description: "Category added successfully",
     });
-  };
+  }, [toast]);
 
-  const updateCategory = (id: string, updates: Partial<Category>) => {
+  const updateCategory = useCallback((id: string, updates: Partial<Category>) => {
     setCategories(
-      categories.map(category => 
+      prevCategories => prevCategories.map(category => 
         category.id === id ? { ...category, ...updates } : category
       )
     );
-  };
+  }, []);
 
-  const deleteCategory = (id: string) => {
+  const deleteCategory = useCallback((id: string) => {
     // Only delete if no tasks use this category
     const tasksWithCategory = tasks.filter(task => task.categoryId === id);
     if (tasksWithCategory.length > 0) {
@@ -147,14 +162,14 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return;
     }
     
-    setCategories(categories.filter(category => category.id !== id));
+    setCategories(prevCategories => prevCategories.filter(category => category.id !== id));
     toast({
       variant: "destructive",
       description: "Category deleted",
     });
-  };
+  }, [tasks, toast]);
 
-  const reorderTasks = (categoryId: string, startIndex: number, endIndex: number) => {
+  const reorderTasks = useCallback((categoryId: string, startIndex: number, endIndex: number) => {
     const categoryTasks = [...tasks.filter(task => task.categoryId === categoryId)];
     const [removed] = categoryTasks.splice(startIndex, 1);
     categoryTasks.splice(endIndex, 0, removed);
@@ -166,11 +181,7 @@ export const TaskProvider: React.FC<{ children: React.ReactNode }> = ({ children
     ];
     
     setTasks(newTasks);
-  };
-
-  const getTasksByCategory = (categoryId: string) => {
-    return tasks.filter(task => task.categoryId === categoryId);
-  };
+  }, [tasks]);
 
   return (
     <TaskContext.Provider

@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { memo } from 'react';
 import { TaskProvider } from '@/context/TaskContext';
 import Header from '@/components/Header';
 import TaskBoard from '@/components/TaskBoard';
@@ -24,4 +24,4 @@ const Index: React.FC = () => {
   );
 };
 
-export default Index;
+export default memo(Index);
