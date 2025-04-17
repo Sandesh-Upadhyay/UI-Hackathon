@@ -1,0 +1,270 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 250 50% 98%;
+    --foreground: 250 10% 20%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 250 10% 20%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 250 10% 20%;
+
+    --primary: 250 90% 60%;
+    --primary-foreground: 250 10% 98%;
+
+    --secondary: 250 30% 96%;
+    --secondary-foreground: 250 10% 20%;
+
+    --muted: 250 30% 96%;
+    --muted-foreground: 250 10% 45%;
+
+    --accent: 250 30% 94%;
+    --accent-foreground: 250 10% 20%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 250 10% 98%;
+
+    --border: 250 30% 90%;
+    --input: 250 30% 90%;
+    --ring: 250 90% 60%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 224 71% 4%;
+    --foreground: 213 31% 91%;
+
+    --card: 224 71% 4%;
+    --card-foreground: 213 31% 91%;
+
+    --popover: 224 71% 4%;
+    --popover-foreground: 213 31% 91%;
+
+    --primary: 250 90% 60%;
+    --primary-foreground: 250 10% 98%;
+
+    --secondary: 222 47% 11%;
+    --secondary-foreground: 213 31% 91%;
+
+    --muted: 223 47% 11%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 216 34% 17%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 216 34% 17%;
+    --input: 216 34% 17%;
+    --ring: 250 90% 60%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-gradient-to-br from-background via-background/95 to-secondary/50 text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    background-attachment: fixed;
+  }
+
+  .task-card {
+    @apply bg-white/80 backdrop-blur-sm rounded-xl shadow-sm border border-white/50 p-3 sm:p-4 mb-3 flex items-center gap-2 sm:gap-3 transition-all duration-300 hover:shadow-md hover:bg-white/90 hover:scale-[1.01] dark:bg-slate-800/40 dark:border-slate-700/30 dark:hover:bg-slate-800/60;
+  }
+
+  .task-card.completed {
+    @apply opacity-60 line-through;
+  }
+
+  .category-badge {
+    @apply px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs font-medium shadow-sm backdrop-blur-sm transition-all duration-300 hover:shadow-md;
+  }
+
+  .task-drag-handle {
+    @apply cursor-grab active:cursor-grabbing touch-none;
+  }
+
+  .category-purple {
+    @apply bg-taskflow-purple/15 text-taskflow-purple border border-taskflow-purple/20;
+  }
+  .dark .category-purple {
+    @apply bg-taskflow-purple/20 text-taskflow-purple-light border border-taskflow-purple/30;
+  }
+
+  .category-blue {
+    @apply bg-taskflow-blue/15 text-taskflow-blue border border-taskflow-blue/20;
+  }
+  .dark .category-blue {
+    @apply bg-taskflow-blue/20 text-taskflow-blue-light border border-taskflow-blue/30;
+  }
+
+  .category-pink {
+    @apply bg-taskflow-pink/15 text-taskflow-pink border border-taskflow-pink/20;
+  }
+  .dark .category-pink {
+    @apply bg-taskflow-pink/20 text-taskflow-pink-light border border-taskflow-pink/30;
+  }
+
+  .category-green {
+    @apply bg-taskflow-green/15 text-taskflow-green border border-taskflow-green/20;
+  }
+  .dark .category-green {
+    @apply bg-taskflow-green/20 text-taskflow-green-light border border-taskflow-green/30;
+  }
+
+  .category-orange {
+    @apply bg-taskflow-orange/15 text-taskflow-orange border border-taskflow-orange/20;
+  }
+  .dark .category-orange {
+    @apply bg-taskflow-orange/20 text-taskflow-orange-light border border-taskflow-orange/30;
+  }
+
+  .category-red {
+    @apply bg-taskflow-red/15 text-taskflow-red border border-taskflow-red/20;
+  }
+  .dark .category-red {
+    @apply bg-taskflow-red/20 text-taskflow-red-light border border-taskflow-red/30;
+  }
+}
+
+.glass-card {
+  @apply bg-white/80 backdrop-blur-sm border border-white/50 shadow-lg rounded-xl;
+}
+
+.neo-glass {
+  @apply bg-white/30 backdrop-blur-md border border-white/30 shadow-lg;
+}
+
+.holographic {
+  @apply relative overflow-hidden;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+}
+
+.holographic::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.1) 25%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.1) 75%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  z-index: 1;
+  transform: translateX(-100%);
+  animation: shimmer 5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.futuristic-gradient {
+  background: linear-gradient(
+    90deg,
+    rgba(139, 92, 246, 0.5) 0%,
+    rgba(79, 70, 229, 0.5) 50%,
+    rgba(236, 72, 153, 0.5) 100%
+  );
+}
+
+.tasklist-container {
+  min-height: 200px;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.float-animation {
+  animation: float 5s ease-in-out infinite;
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(139, 92, 246, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(139, 92, 246, 0);
+  }
+}
+
+.pulse-animation {
+  animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+}
+
+.neo-button {
+  @apply relative overflow-hidden transition-all duration-300 hover:shadow-lg;
+}
+
+.neo-button::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.4) 10%, transparent 10.01%);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  transform: scale(10, 10);
+  opacity: 0;
+  transition: transform 0.5s, opacity 1s;
+}
+
+.neo-button:active::after {
+  transform: scale(0, 0);
+  opacity: 0.3;
+  transition: 0s;
+}
+
+@media (max-width: 480px) {
+  .xs\:block {
+    display: block;
+  }
+  .xs\:hidden {
+    display: none;
+  }
+}
