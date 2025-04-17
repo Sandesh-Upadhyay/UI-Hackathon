@@ -2,7 +2,7 @@
 
 ## 🌐 Project Info
 
-**Live URL**: [https://ui-hackathon-project.netlify.app/](https://ui-hackathon-project.netlify.app/)
+**Live URL**: []()
 
 ---
 ### 2. **Use Your Preferred IDE (Locally)**
